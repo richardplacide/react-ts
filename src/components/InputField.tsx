@@ -1,20 +1,28 @@
 import React, { useRef } from 'react';
+import {Actions} from '../todoReducer';
 import './styles.css';
 
 interface Props {
     todo: string;
     setTodo: React.Dispatch<React.SetStateAction<string>>;
-    handleAdd: (e: React.FormEvent) => void;
+    dispatch: React.Dispatch<Actions>;
+    //handleAdd: (e: React.FormEvent) => void;
 }
 
-const InputField:React.FC<Props> = ({todo, setTodo, handleAdd}) => {
+const InputField:React.FC<Props> = ({todo, setTodo, dispatch}) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
     return (
         <form className="input" 
         onSubmit={(e) => {
-            handleAdd(e);
+            //handleAdd(e);
+            e.preventDefault();
+            dispatch({
+                type: "add",
+                payload: todo
+                });
+                setTodo("");
             inputRef.current?.blur();
             }}>
             <input type="input"

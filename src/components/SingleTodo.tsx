@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Todo } from '../model';
+import {Actions} from '../todoReducer';
 import {AiFillDelete, AiFillEdit} from 'react-icons/ai';
 import {MdDone} from 'react-icons/md';
 import './styles.css';
@@ -8,16 +9,15 @@ import './styles.css';
 interface Props {
     todo: Todo;
     todos: Todo[];
-    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-
+    dispatch: React.Dispatch<Actions>
 }
 
-const SingleTodo: React.FC<Props> = ({todo, todos, setTodos}) => {
+const SingleTodo: React.FC<Props> = ({todo, todos, dispatch}) => {
 
     const [edit, setEdit] = useState<boolean>(false);
     const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
-    const handleDelete = (id: number) => {
+    /* const handleDelete = (id: number) => {
         setTodos(todos.filter((todo)=>
             todo.id !== id))
     }
@@ -29,8 +29,20 @@ const SingleTodo: React.FC<Props> = ({todo, todos, setTodos}) => {
 
     const handleEdit = (e:React.FormEvent, id:number) => {
         e.preventDefault();
-        setTodos (todos.map((todo)=>
+        setTodos(todos.map((todo)=>
         todo.id === id ? {...todo, todo:editTodo}:todo));
+        setEdit(false);
+    }
+ */
+    const handleEdit = (e:React.FormEvent, id:number) => {
+        e.preventDefault();
+        dispatch({
+            type: "edit",
+            payload: id,
+            todoText: editTodo
+        })
+        /* todos.map((todo)=>
+        todo.id === id ? {...todo, todo:editTodo}:todo); */
         setEdit(false);
     }
 
@@ -76,10 +88,20 @@ const SingleTodo: React.FC<Props> = ({todo, todos, setTodos}) => {
                 >
                 <AiFillEdit/>
             </span>
-            <span className="icon" onClick={()=>handleDelete(todo.id)}>
+            <span className="icon" onClick={()=>
+                dispatch({
+                    type: "remove",
+                    payload: todo.id
+                    })
+                }>
                 <AiFillDelete/>
             </span>
-            <span className="icon" onClick={()=>handleDone(todo.id)}>
+            <span className="icon" onClick={()=>
+                dispatch({
+                    type: "done",
+                    payload: todo.id
+                    })
+                }>
                 <MdDone/>
             </span>
         </div>
