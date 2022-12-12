@@ -38,7 +38,7 @@ const SingleTodo: React.FC<Props> = ({todo, todos, dispatch}) => {
         e.preventDefault();
         dispatch({
             type: "edit",
-            payload: id,
+            id: id,
             todoText: editTodo
         })
         /* todos.map((todo)=>
@@ -91,7 +91,7 @@ const SingleTodo: React.FC<Props> = ({todo, todos, dispatch}) => {
             <span className="icon" onClick={()=>
                 dispatch({
                     type: "remove",
-                    payload: todo.id
+                    id: todo.id
                     })
                 }>
                 <AiFillDelete/>
@@ -99,7 +99,7 @@ const SingleTodo: React.FC<Props> = ({todo, todos, dispatch}) => {
             <span className="icon" onClick={()=>
                 dispatch({
                     type: "done",
-                    payload: todo.id
+                    id: todo.id
                     })
                 }>
                 <MdDone/>

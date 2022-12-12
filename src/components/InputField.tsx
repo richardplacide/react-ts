@@ -20,7 +20,7 @@ const InputField:React.FC<Props> = ({todo, setTodo, dispatch}) => {
             e.preventDefault();
             dispatch({
                 type: "add",
-                payload: todo
+                task: todo
                 });
                 setTodo("");
             inputRef.current?.blur();
